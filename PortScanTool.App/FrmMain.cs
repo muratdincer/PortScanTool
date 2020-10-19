@@ -43,6 +43,10 @@ namespace PortScanTool.App
             TbParallelTaskCount.Maximum = Environment.ProcessorCount;
             TbParallelTaskCount.Value = 1;
         }
+        private void FrmMain_Load(object sender, EventArgs e)
+        {
+            if (logger == null) logger = LogManager.GetCurrentClassLogger();
+        }
 
         private async void BtnStart_Click(object sender, EventArgs e)
         {
@@ -127,11 +131,9 @@ namespace PortScanTool.App
             {
                 if (Scanner != null)
                 {
-                    logger.Info("Scan worker count change requesting for {0}", TbParallelTaskCount.Value);
+                    logger.Info("Scan worker count change requested for {0}", TbParallelTaskCount.Value);
 
                     await Scanner.ChangeWorkerCountAsync(TbParallelTaskCount.Value);
-
-                    logger.Info("Scan worker count change requested for {0}", TbParallelTaskCount.Value);
                 }
             }
             catch (Exception ex)
@@ -205,9 +207,5 @@ namespace PortScanTool.App
             }), null);
         }
 
-        private void FrmMain_Load(object sender, EventArgs e)
-        {
-            if (logger == null) logger = LogManager.GetCurrentClassLogger();
-        }
     }
 }
