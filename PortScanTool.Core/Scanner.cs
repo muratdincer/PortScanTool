@@ -105,7 +105,7 @@ namespace PortScanTool.Core
             {
                 foreach (var ipAddress in ipAddresses)
                 {
-                    for (int port = minPortNumber; port < maxPortNumber; port++)
+                    for (int port = minPortNumber; port <= maxPortNumber; port++)
                     {
                         ScannerQueues.Enqueue(new ScannerQueueObject
                         {
@@ -228,9 +228,28 @@ namespace PortScanTool.Core
             {
                 using (var tcpClient = new TcpClient())
                 {
-                    var connectResult = tcpClient.ConnectAsync(scannerQueueObject.IPAddress, scannerQueueObject.Port).Wait(TimeSpan.FromSeconds(2).Milliseconds, ScanCancellationToken);
+                    tcpClient.ReceiveTimeout = (int)TimeSpan.FromSeconds(10).TotalMilliseconds;
+                    tcpClient.SendTimeout = (int)TimeSpan.FromMinutes(10).TotalMilliseconds;
+                    var asyncResult = tcpClient.BeginConnect(scannerQueueObject.IPAddress.ToString(), scannerQueueObject.Port, null, null);
+                    var waitHandle = asyncResult.AsyncWaitHandle;
+                    try
+                    {
+                        if (!asyncResult.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(10), false))
+                        {
+                            tcpClient.Close();
+                            scannerQueueObject.Status = PortStatus.Closed;
+                        }
+                        else
+                        {
+                            scannerQueueObject.Status = tcpClient.Connected ? PortStatus.Open : PortStatus.Closed;
+                        }
 
-                    scannerQueueObject.Status = connectResult ? PortStatus.Open : PortStatus.Closed;
+                        tcpClient.EndConnect(asyncResult);
+                    }
+                    finally
+                    {
+                        waitHandle.Close();
+                    }
                 }
             }
             catch (Exception)
