@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30523.141
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortScanTool.App", "PortScanTool.App\PortScanTool.App.csproj", "{8BD3D6D5-668F-47DF-A2AB-B9B7A40815C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortScanTool.Core", "PortScanTool.Core\PortScanTool.Core.csproj", "{5953FD7E-2470-477B-AB7A-39441588A3C2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8BD3D6D5-668F-47DF-A2AB-B9B7A40815C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BD3D6D5-668F-47DF-A2AB-B9B7A40815C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BD3D6D5-668F-47DF-A2AB-B9B7A40815C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BD3D6D5-668F-47DF-A2AB-B9B7A40815C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5953FD7E-2470-477B-AB7A-39441588A3C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5953FD7E-2470-477B-AB7A-39441588A3C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5953FD7E-2470-477B-AB7A-39441588A3C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5953FD7E-2470-477B-AB7A-39441588A3C2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {936C497E-0DC5-47E0-81C7-45C352D2C682}
+	EndGlobalSection
+EndGlobal
