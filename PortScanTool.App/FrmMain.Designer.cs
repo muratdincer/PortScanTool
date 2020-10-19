@@ -160,6 +160,7 @@
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Port Scan Tool";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmMain_FormClosed);
             this.Load += new System.EventHandler(this.FrmMain_Load);
             ((System.ComponentModel.ISupportInitialize)(this.TbParallelTaskCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgwScanResults)).EndInit();

@@ -199,5 +199,9 @@ namespace PortScanTool.App
             }), null);
         }
 
+        private void FrmMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
