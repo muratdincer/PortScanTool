@@ -46,7 +46,10 @@ namespace PortScanTool.App
             {
                 logger.Info("Scan starting");
 
-                if (!IPAddressRange.TryParse(TxtIPRange.Text.Replace(",", ".").Replace(" ", ""), out IPAddressRange ipAddressRange))
+                var beginIpAddress = TxtIPRangeBegin.Text.Replace(",", ".").Replace(" ", "");
+                var endIpAddress = TxtIPRangeEnd.Text.Replace(",", ".").Replace(" ", "");
+
+                if (!IPAddressRange.TryParse(string.Format("{0}-{1}", beginIpAddress, endIpAddress), out IPAddressRange ipAddressRange))
                 {
                     MessageBox.Show("IP Range not valid!", "Input Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
@@ -64,10 +67,10 @@ namespace PortScanTool.App
                 DgwScanResults.DataSource = typeof(ScanResultItem);
                 DgwScanResults.DataSource = ScanResultItems;
 
-
                 Scanner = new Scanner(TbParallelTaskCount.Value);
 
                 Scanner.OnStarted += Scanner_OnStarted;
+                Scanner.OnCanceling += Scanner_OnCanceling;
                 Scanner.OnCanceled += Scanner_OnCanceled;
                 Scanner.OnFinished += Scanner_OnFinished;
                 Scanner.OnPortCheckCompleted += Scanner_OnPortCheckCompleted;
@@ -164,30 +167,6 @@ namespace PortScanTool.App
             }
         }
 
-        private void Scanner_OnFinished(object sender, EventArgs e)
-        {
-            logger.Info("Scan finished");
-
-            synchronizationContext.Post(new SendOrPostCallback(o =>
-            {
-                BtnStart.Enabled = true;
-                BtnStop.Enabled = false;
-                LblStatusText.Text = "Scan completed";
-            }), null);
-        }
-
-        private void Scanner_OnCanceled(object sender, EventArgs e)
-        {
-            logger.Info("Scan canceled");
-
-            synchronizationContext.Post(new SendOrPostCallback(o =>
-            {
-                BtnStart.Enabled = true;
-                BtnStop.Enabled = false;
-                LblStatusText.Text = "Scan Canceled";
-            }), null);
-        }
-
         private void Scanner_OnStarted(object sender, EventArgs e)
         {
             logger.Info("Scan started");
@@ -198,9 +177,50 @@ namespace PortScanTool.App
                 BtnStop.Enabled = true;
             }), null);
         }
+        private void Scanner_OnFinished(object sender, EventArgs e)
+        {
+            logger.Info("Scan finished");
+
+            synchronizationContext.Post(new SendOrPostCallback(o =>
+            {
+                BtnStart.Enabled = true;
+                BtnStop.Enabled = false;
+                LblStatusText.Text = "Scan completed";
+            }), null);
+
+            Scanner?.Dispose();
+        }
+
+        private void Scanner_OnCanceling(object sender, EventArgs e)
+        {
+            logger.Info("Scan Canceling");
+
+            synchronizationContext.Post(new SendOrPostCallback(o =>
+            {
+                BtnStart.Enabled = true;
+                BtnStop.Enabled = false;
+                LblStatusText.Text = "Scan Canceling";
+            }), null);
+        }
+
+        private void Scanner_OnCanceled(object sender, EventArgs e)
+        {
+            logger.Info("Scan Canceled");
+
+            synchronizationContext.Post(new SendOrPostCallback(o =>
+            {
+                LblStatusText.Text = "Scan Canceled";
+            }), null);
+
+            Scanner?.Dispose();
+        }
 
         private void FrmMain_FormClosed(object sender, FormClosedEventArgs e)
         {
+            Scanner?.Dispose();
+            Scanner = null;
+            ScanResultItems = null;
+
             Application.Exit();
         }
     }

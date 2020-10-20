@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.TxtIPRange = new System.Windows.Forms.MaskedTextBox();
+            this.TxtIPRangeBegin = new System.Windows.Forms.MaskedTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.BtnStart = new System.Windows.Forms.Button();
             this.BtnStop = new System.Windows.Forms.Button();
@@ -38,18 +38,19 @@
             this.LblDgwResult = new System.Windows.Forms.Label();
             this.LblStatus = new System.Windows.Forms.Label();
             this.LblStatusText = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.TxtIPRangeEnd = new System.Windows.Forms.MaskedTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.TbParallelTaskCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgwScanResults)).BeginInit();
             this.SuspendLayout();
             // 
-            // TxtIPRange
+            // TxtIPRangeBegin
             // 
-            this.TxtIPRange.Location = new System.Drawing.Point(89, 28);
-            this.TxtIPRange.Mask = "###.###.###.###\\-###.###.###.###";
-            this.TxtIPRange.Name = "TxtIPRange";
-            this.TxtIPRange.Size = new System.Drawing.Size(228, 22);
-            this.TxtIPRange.TabIndex = 0;
-            this.TxtIPRange.Text = "192168  1  1192168  1 10";
+            this.TxtIPRangeBegin.Location = new System.Drawing.Point(89, 28);
+            this.TxtIPRangeBegin.Mask = "###.###.###.###";
+            this.TxtIPRangeBegin.Name = "TxtIPRangeBegin";
+            this.TxtIPRangeBegin.Size = new System.Drawing.Size(120, 22);
+            this.TxtIPRangeBegin.TabIndex = 0;
             // 
             // label1
             // 
@@ -62,7 +63,7 @@
             // 
             // BtnStart
             // 
-            this.BtnStart.Location = new System.Drawing.Point(380, 28);
+            this.BtnStart.Location = new System.Drawing.Point(389, 21);
             this.BtnStart.Name = "BtnStart";
             this.BtnStart.Size = new System.Drawing.Size(75, 36);
             this.BtnStart.TabIndex = 2;
@@ -73,7 +74,7 @@
             // BtnStop
             // 
             this.BtnStop.Enabled = false;
-            this.BtnStop.Location = new System.Drawing.Point(469, 28);
+            this.BtnStop.Location = new System.Drawing.Point(478, 21);
             this.BtnStop.Name = "BtnStop";
             this.BtnStop.Size = new System.Drawing.Size(74, 36);
             this.BtnStop.TabIndex = 3;
@@ -141,11 +142,30 @@
             this.LblStatusText.Size = new System.Drawing.Size(0, 17);
             this.LblStatusText.TabIndex = 9;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(221, 31);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(13, 17);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "-";
+            // 
+            // TxtIPRangeEnd
+            // 
+            this.TxtIPRangeEnd.Location = new System.Drawing.Point(244, 28);
+            this.TxtIPRangeEnd.Mask = "###.###.###.###";
+            this.TxtIPRangeEnd.Name = "TxtIPRangeEnd";
+            this.TxtIPRangeEnd.Size = new System.Drawing.Size(120, 22);
+            this.TxtIPRangeEnd.TabIndex = 11;
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(564, 490);
+            this.Controls.Add(this.TxtIPRangeEnd);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.LblStatusText);
             this.Controls.Add(this.LblStatus);
             this.Controls.Add(this.LblDgwResult);
@@ -155,7 +175,7 @@
             this.Controls.Add(this.BtnStop);
             this.Controls.Add(this.BtnStart);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.TxtIPRange);
+            this.Controls.Add(this.TxtIPRangeBegin);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -171,7 +191,7 @@
 
         #endregion
 
-        private System.Windows.Forms.MaskedTextBox TxtIPRange;
+        private System.Windows.Forms.MaskedTextBox TxtIPRangeBegin;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button BtnStart;
         private System.Windows.Forms.Button BtnStop;
@@ -181,6 +201,8 @@
         private System.Windows.Forms.Label LblDgwResult;
         private System.Windows.Forms.Label LblStatus;
         private System.Windows.Forms.Label LblStatusText;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.MaskedTextBox TxtIPRangeEnd;
     }
 }
 

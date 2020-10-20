@@ -13,7 +13,7 @@ namespace PortScanTool.Core
     /// <summary>
     /// Scanner object is a class to scan tcp ports 1 to 65535 of specified ip addresses
     /// </summary>
-    public class Scanner
+    public class Scanner : IDisposable
     {
         /// <summary>
         /// Lowest port number to start scanning
@@ -61,7 +61,11 @@ namespace PortScanTool.Core
         /// </summary>
         public event EventHandler<EventArgs> OnStarted;
         /// <summary>
-        /// This event is triggered when the scan canceled
+        /// This event is triggered when the scan canceling
+        /// </summary>
+        public event EventHandler<EventArgs> OnCanceling;
+        /// <summary>
+        /// This event is triggered when the scan cancel action completed
         /// </summary>
         public event EventHandler<EventArgs> OnCanceled;
         /// <summary>
@@ -151,9 +155,14 @@ namespace PortScanTool.Core
         {
             await Task.Run(() =>
             {
+                OnCanceling?.Invoke(this, new EventArgs { });
+
                 ScanCancellationTokenSource.Cancel();
 
-                OnCanceled?.Invoke(this, new EventArgs { });
+                Task.WhenAll(Workers.Select(w => w.Task)).ContinueWith((t) =>
+                {
+                    OnCanceled?.Invoke(this, new EventArgs { });
+                }).Wait();
             });
         }
 
@@ -228,13 +237,15 @@ namespace PortScanTool.Core
             {
                 using (var tcpClient = new TcpClient())
                 {
-                    tcpClient.ReceiveTimeout = (int)TimeSpan.FromSeconds(10).TotalMilliseconds;
-                    tcpClient.SendTimeout = (int)TimeSpan.FromMinutes(10).TotalMilliseconds;
+                    var timeout = TimeSpan.FromSeconds(10);
+
+                    tcpClient.ReceiveTimeout = (int)timeout.TotalMilliseconds;
+                    tcpClient.SendTimeout = (int)timeout.TotalMilliseconds;
                     var asyncResult = tcpClient.BeginConnect(scannerQueueObject.IPAddress.ToString(), scannerQueueObject.Port, null, null);
                     var waitHandle = asyncResult.AsyncWaitHandle;
                     try
                     {
-                        if (!asyncResult.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(10), false))
+                        if (!asyncResult.AsyncWaitHandle.WaitOne(timeout, false))
                         {
                             tcpClient.Close();
                             scannerQueueObject.Status = PortStatus.Closed;
@@ -252,7 +263,7 @@ namespace PortScanTool.Core
                     }
                 }
             }
-            catch (Exception)
+            catch
             {
                 scannerQueueObject.Status = PortStatus.Closed;
             }
@@ -287,6 +298,38 @@ namespace PortScanTool.Core
                     OnFinished?.Invoke(this, new EventArgs { });
                 }
             }, ScanCancellationToken);
+        }
+
+        private bool _disposed = false;
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                ScanCancellationTokenSource?.Dispose();
+
+                if (Workers != null)
+                    foreach (var worker in Workers)
+                    {
+                        worker.Task.Dispose();
+                        worker.CancellationTokenSource?.Dispose();
+                    }
+            }
+
+            ScannerQueues = null;
+            Workers = null;
+
+            _disposed = true;
         }
     }
 }
