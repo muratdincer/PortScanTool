@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortScanTool.App", "PortSca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortScanTool.Core", "PortScanTool.Core\PortScanTool.Core.csproj", "{5953FD7E-2470-477B-AB7A-39441588A3C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortScanTool.Core.Tests", "PortScanTool.Core.Tests\PortScanTool.Core.Tests.csproj", "{21CDCA01-0E87-44A8-833A-5CE5D24AE533}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{5953FD7E-2470-477B-AB7A-39441588A3C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5953FD7E-2470-477B-AB7A-39441588A3C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5953FD7E-2470-477B-AB7A-39441588A3C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21CDCA01-0E87-44A8-833A-5CE5D24AE533}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21CDCA01-0E87-44A8-833A-5CE5D24AE533}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21CDCA01-0E87-44A8-833A-5CE5D24AE533}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21CDCA01-0E87-44A8-833A-5CE5D24AE533}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

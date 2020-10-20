@@ -31,7 +31,7 @@ namespace PortScanTool.Core
         /// <summary>
         /// Current  number of workers
         /// </summary>
-        private int CurrentWorkerCount { get; set; }
+        public int CurrentWorkerCount { get; private set; }
 
         /// <summary>
         /// Source object to create a CancellationToken and cancel the scan
@@ -169,7 +169,7 @@ namespace PortScanTool.Core
         /// <summary>
         /// Increases the number of current worker by 1
         /// </summary>
-        public void IncreaseWorker()
+        private void IncreaseWorker()
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -184,7 +184,7 @@ namespace PortScanTool.Core
         /// <summary>
         /// Decreases the number of current worker by 1
         /// </summary>
-        public void DecreaseWorker()
+        private void DecreaseWorker()
         {
             var lastworker = Workers.LastOrDefault();
             lastworker.CancellationTokenSource.Cancel();
